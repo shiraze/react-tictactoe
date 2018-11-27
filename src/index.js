@@ -20,6 +20,9 @@ const theme = createMuiTheme({
         primary: { main: '#ff5722' },
         secondary: { main: '#2979ff' },
     },
+    typography: {
+        useNextVariants: true,
+    },
 });
 
 function Square(props) {
@@ -84,7 +87,7 @@ class Game extends React.Component {
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
         const order = this.state.reverseOrder ? "reverseOrder" : "";
-        const historyList = history[1];
+        const historyList = !!history[1];
 
         const moves = history.map((step, move) => {
             const desc = move ?
