@@ -11,6 +11,11 @@ I've also implemented code for the following items from the **Wrapping up** sect
 1. When someone wins, highlight the three squares that caused the win.
 1. When no one wins, display a message about the result being a draw.
 
+## Material design
+Layout has also been updated to make use of Material-UI, https://material-ui.com/.
+I don't like the 'fudge' that places a separator between AppBar and Page, and I would like to have a Tic-Tac-Toe board that is centralised and makes use of
+available space, with a minimum size set to the size currently shown.
+
 ## Available Scripts
 
 In the project directory, you can run:
