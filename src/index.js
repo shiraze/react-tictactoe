@@ -24,10 +24,11 @@ class Board extends React.Component {
     }
 
     renderSquare(i) {
+        const highlight = i === this.props.lastPlayed || (this.props.winningLine && this.props.winningLine.indexOf(i)> -1);
         return <Square
             value={this.props.squares[i]}
             onClick={() => this.props.onClick(i)}
-            className={i === this.props.lastPlayed  ? "boldsquare" : "square"}
+            className={highlight ? "boldsquare" : "square"}
         />;
     }
 
