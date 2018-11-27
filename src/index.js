@@ -13,7 +13,7 @@ function Square(props) {
 }
 
 class Board extends React.Component {
-    renderRow(i){
+    renderRow(i) {
         return (
             <div className="board-row">
                 {this.renderSquare(i++)}
@@ -24,7 +24,7 @@ class Board extends React.Component {
     }
 
     renderSquare(i) {
-        const highlight = i === this.props.lastPlayed || (this.props.winningLine && this.props.winningLine.indexOf(i)> -1);
+        const highlight = i === this.props.lastPlayed || (this.props.winningLine && this.props.winningLine.indexOf(i) > -1);
         return <Square
             value={this.props.squares[i]}
             onClick={() => this.props.onClick(i)}
@@ -55,6 +55,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            reverseOrder: false,
         };
     }
 
@@ -62,6 +63,7 @@ class Game extends React.Component {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
+        const order = this.state.reverseOrder ? "reverseOrder" : "";
 
         const moves = history.map((step, move) => {
             const desc = move ?
@@ -96,7 +98,12 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div className="status">{status}</div>
-                    <ol>{moves}</ol>
+                    <button onClick={() =>
+                        this.setState({
+                            reverseOrder: !this.state.reverseOrder,
+                        })
+                    }>Toggle History Order</button>
+                    <ol className={order}>{moves}</ol>
                 </div>
             </div>
         );
@@ -149,7 +156,7 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return {name: squares[a], line: lines[i]};
+            return { name: squares[a], line: lines[i] };
         }
     }
     return null;
