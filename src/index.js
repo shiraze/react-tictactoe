@@ -1,6 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+import 'typeface-roboto';
+
 import './index.css';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: { main: '#ff5722' },
+        secondary: { main: '#2979ff' },
+    },
+});
 
 function Square(props) {
     return (
@@ -64,15 +84,17 @@ class Game extends React.Component {
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
         const order = this.state.reverseOrder ? "reverseOrder" : "";
+        const historyList = history[1];
 
         const moves = history.map((step, move) => {
             const desc = move ?
                 'Go to move #' + move :
                 'Go to game start';
             const location = step.col ? "(" + step.col + "," + step.row + ")" : "";
+            if (!historyList) return "";
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button> {location}
+                    <Button variant="outlined" color="secondary" onClick={() => this.jumpTo(move)}>{desc}</Button> {location}
                 </li>
             )
         })
@@ -87,25 +109,43 @@ class Game extends React.Component {
         }
 
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares={current.squares}
-                        onClick={(i) => this.handleClick(i)}
-                        lastPlayed={current.lastPlayed}
-                        winningLine={winner ? winner.line : null}
-                    />
-                </div>
-                <div className="game-info">
-                    <div className="status">{status}</div>
-                    <button onClick={() =>
-                        this.setState({
-                            reverseOrder: !this.state.reverseOrder,
-                        })
-                    }>Toggle History Order</button>
-                    <ol className={order}>{moves}</ol>
-                </div>
-            </div>
+            <MuiThemeProvider theme={theme}>
+                <Grid container>
+                    <AppBar position="static" color="primary">
+                        <Toolbar>
+                            <Typography variant="h6" color="inherit">
+                                Tic Tac Toe
+                            </Typography>
+                            <Typography variant="h6" color="inherit" align="right" style={{ flex: 1 }}>
+                                {status}
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                </Grid>
+                <div style={{ padding:10 }}/>
+                <Paper>
+                    <Grid container spacing={8}>
+                        <Grid item sm={6} xs={12}>
+                            <Board
+                                squares={current.squares}
+                                onClick={(i) => this.handleClick(i)}
+                                lastPlayed={current.lastPlayed}
+                                winningLine={winner ? winner.line : null}
+                            />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Collapse in={historyList}>
+                                <Button variant="contained" color="primary" onClick={() =>
+                                    this.setState({
+                                        reverseOrder: !this.state.reverseOrder,
+                                    })
+                                }>Toggle History Order</Button>
+                            </Collapse>
+                            <ol className={order}>{moves}</ol>
+                        </Grid>
+                    </Grid>
+                </Paper>
+            </MuiThemeProvider>
         );
     }
 
