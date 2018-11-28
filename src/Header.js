@@ -22,7 +22,6 @@ class Header extends React.Component {
     }
 }
 
-// Add this function:
 function mapStateToProps(state) {
     return {
         status: state.status
