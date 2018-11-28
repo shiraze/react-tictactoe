@@ -16,6 +16,11 @@ Layout has also been updated to make use of Material-UI, https://material-ui.com
 I don't like the 'fudge' that places a separator between AppBar and Page, and I would like to have a Tic-Tac-Toe board that is centralised and makes use of
 available space, with a minimum size set to the size currently shown.
 
+## Using Redux
+React-Redux is used to share state between the ``Game`` and ``Header`` components, after the header section was removed from the game component hierarchy.
+It's worth noting that the ``Header`` component referenced in the ``Game`` definition is NOT the ```React.Component``` but is the exported result of the ```connect()```
+call at the end of the *Header.js* file
+
 ## Available Scripts
 
 In the project directory, you can run:

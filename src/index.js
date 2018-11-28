@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import AppBar from '@material-ui/core/AppBar';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import Header from './Header';
+
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -111,21 +113,14 @@ class Game extends React.Component {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
 
+        store.dispatch({type:"SET_HEADER", payload: status});
+
         return (
             <MuiThemeProvider theme={theme}>
                 <Grid container>
-                    <AppBar position="static" color="primary">
-                        <Toolbar>
-                            <Typography variant="h6" color="inherit">
-                                Tic Tac Toe
-                            </Typography>
-                            <Typography variant="h6" color="inherit" align="right" style={{ flex: 1 }}>
-                                {status}
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
+                    <Header />
                 </Grid>
-                <div style={{ padding:10 }}/>
+                <div style={{ padding: 10 }} />
                 <Paper>
                     <Grid container spacing={8}>
                         <Grid item sm={6} xs={12}>
@@ -180,8 +175,25 @@ class Game extends React.Component {
     }
 }
 
+const initialState = {
+    status: ""
+};
+
+function reducer(state = initialState, action) {
+    if(action.type === "SET_HEADER"){
+        return {
+            status: action.payload
+        }
+    }
+    return state;
+}
+
+const store = createStore(reducer);
+
 ReactDOM.render(
-    <Game />,
+    <Provider store={store}>
+        <Game />
+    </Provider>,
     document.getElementById('root')
 );
 

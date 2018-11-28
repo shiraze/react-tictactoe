@@ -6,7 +6,9 @@
     "@material-ui/core": "^3.6.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-redux": "^5.1.1",
     "react-scripts": "2.1.1",
+    "redux": "^4.0.1",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
@@ -23,5 +25,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "redux-devtools": "^3.4.2"
+  }
 }
