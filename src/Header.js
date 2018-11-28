@@ -22,10 +22,5 @@ class Header extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        status: state.status
-    };
-}
-
+const mapStateToProps = (state) => { return { status: state.status } };
 export default connect(mapStateToProps)(Header);

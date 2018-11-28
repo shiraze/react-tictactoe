@@ -48,10 +48,5 @@ class History extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        history: state.history,
-    };
-}
-
+const mapStateToProps = (state) => { return { history: state.history } };
 export default connect(mapStateToProps)(History);

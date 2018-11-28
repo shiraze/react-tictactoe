@@ -87,6 +87,22 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
         const xIsNext = (this.props.step % 2) === 0;
 
+        return (
+            <Board
+                squares={current.squares}
+                onClick={(i) => this.handleClick(i, xIsNext)}
+                lastPlayed={current.lastPlayed}
+                winningLine={winner ? winner.line : null}
+            />
+        );
+    }
+
+    componentDidUpdate(){
+        const history = this.state.history;
+        const current = history[this.props.step];
+        const winner = calculateWinner(current.squares);
+        const xIsNext = (this.props.step % 2) === 0;
+
         let status;
         if (winner) {
             status = 'Winner: ' + winner.name;
@@ -96,17 +112,7 @@ class Game extends React.Component {
             status = 'Next player: ' + (xIsNext ? 'X' : 'O');
         }
 
-        store.dispatch({ type: "SET_HEADER", payload: status });
-        store.dispatch({ type: "SET_HISTORY", payload: history });
-
-        return (
-            <Board
-                squares={current.squares}
-                onClick={(i) => this.handleClick(i, xIsNext)}
-                lastPlayed={current.lastPlayed}
-                winningLine={winner ? winner.line : null}
-            />
-        );
+        this.props.addHeaderHistory(status, history);
     }
 
     handleClick(i, xIsNext) {
@@ -129,13 +135,16 @@ class Game extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => { return { step: state.step } };
+const mapDispatchToProps = dispatch => {
     return {
-        step: state.step
-    };
-}
-
-Game = connect(mapStateToProps)(Game);
+        addHeaderHistory: (header, history) => {
+            dispatch({ type: "SET_HEADER", payload: header });
+            dispatch({ type: "SET_HISTORY", payload: history });
+        },
+    }
+};
+Game = connect(mapStateToProps, mapDispatchToProps)(Game);
 
 const initialState = {
     status: "",
