@@ -113,37 +113,29 @@ class Game extends React.Component {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
 
-        store.dispatch({type:"SET_HEADER", payload: status});
+        store.dispatch({ type: "SET_HEADER", payload: status });
 
         return (
-            <MuiThemeProvider theme={theme}>
-                <Grid container>
-                    <Header />
-                </Grid>
-                <div style={{ padding: 10 }} />
-                <Paper>
-                    <Grid container spacing={8}>
-                        <Grid item sm={6} xs={12}>
-                            <Board
-                                squares={current.squares}
-                                onClick={(i) => this.handleClick(i)}
-                                lastPlayed={current.lastPlayed}
-                                winningLine={winner ? winner.line : null}
-                            />
-                        </Grid>
-                        <Grid item sm={6} xs={12}>
-                            <Collapse in={historyList}>
-                                <Button variant="contained" color="primary" onClick={() =>
-                                    this.setState({
-                                        reverseOrder: !this.state.reverseOrder,
-                                    })
-                                }>Toggle History Order</Button>
-                            </Collapse>
-                            <ol className={order}>{moves}</ol>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </MuiThemeProvider>
+            <>
+            <Grid item sm={6} xs={12}>
+                <Board
+                    squares={current.squares}
+                    onClick={(i) => this.handleClick(i)}
+                    lastPlayed={current.lastPlayed}
+                    winningLine={winner ? winner.line : null}
+                />
+            </Grid>
+            <Grid item sm={6} xs={12}>
+                <Collapse in={historyList}>
+                    <Button variant="contained" color="primary" onClick={() =>
+                        this.setState({
+                            reverseOrder: !this.state.reverseOrder,
+                        })
+                    }>Toggle History Order</Button>
+                </Collapse>
+                <ol className={order}>{moves}</ol>
+            </Grid>
+            </>
         );
     }
 
@@ -180,7 +172,7 @@ const initialState = {
 };
 
 function reducer(state = initialState, action) {
-    if(action.type === "SET_HEADER"){
+    if (action.type === "SET_HEADER") {
         return {
             status: action.payload
         }
@@ -190,9 +182,23 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
+const App = () => (
+    <MuiThemeProvider theme={theme}>
+        <Grid container>
+            <Header />
+        </Grid>
+        <div style={{ padding: 10 }} />
+        <Paper>
+            <Grid container spacing={8}>
+                <Game />
+            </Grid>
+        </Paper>
+    </MuiThemeProvider>
+);
+
 ReactDOM.render(
     <Provider store={store}>
-        <Game />
+        <App />
     </Provider>,
     document.getElementById('root')
 );
