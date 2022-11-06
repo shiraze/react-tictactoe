@@ -2,16 +2,15 @@ import React from "react";
 
 import Square from "./square";
 
-const Board = (props) => {
+const Board = ({ lastPlayed, winningLine, squares, onClick }) => {
   function renderSquare(i) {
     const highlight =
-      i === props.lastPlayed ||
-      (props.winningLine && props.winningLine.indexOf(i) > -1);
+      i === lastPlayed || (winningLine && winningLine.indexOf(i) > -1);
 
     return (
       <Square
-        value={props.squares[i]}
-        onClick={() => props.onClick(i)}
+        value={squares[i]}
+        onClick={() => onClick(i)}
         className={highlight ? "boldsquare" : "square"}
       />
     );

@@ -1,14 +1,13 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { connect } from "react-redux";
-import store from "../redux/store";
 
 import { calculateWinner } from "../utils/calculateWinner";
 
 import Board from "./board";
 
-const Game = (props) => {
+const Game = ({ step, addHeaderHistory, setStep }) => {
   const [history, setHistory] = useState([
     {
       squares: Array(9).fill(null),
@@ -18,16 +17,19 @@ const Game = (props) => {
     },
   ]);
 
-  const current = history[props.step];
-  const winner = calculateWinner(current.squares);
-  const xIsNext = props.step % 2 === 0;
-  const status = winner
-    ? `Winner: ${winner.name}`
-    : props.step === 9
-    ? "Game Tie!"
-    : `Next player: ${xIsNext ? "X" : "O"}`;
+  useEffect(() => {
+    const status = winner
+      ? `Winner: ${winner.name}`
+      : step === 9
+      ? "Game Tie!"
+      : `Next player: ${xIsNext ? "X" : "O"}`;
 
-  props.addHeaderHistory(status, history);
+    addHeaderHistory(status, history);
+  });
+
+  const current = history[step];
+  const winner = calculateWinner(current.squares);
+  const xIsNext = step % 2 === 0;
 
   return (
     <Board
@@ -39,7 +41,7 @@ const Game = (props) => {
   );
 
   function handleClick(i, xIsNext) {
-    const currentHistory = history.slice(0, props.step + 1);
+    const currentHistory = history.slice(0, step + 1);
     const current = currentHistory[currentHistory.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -56,26 +58,8 @@ const Game = (props) => {
         },
       ])
     );
-    store.dispatch({ type: "SET_STEP", payload: history.length });
+    setStep(currentHistory.length);
   }
-
-  // componentDidUpdate() {
-  //   const history = this.state.history;
-  //   const current = history[this.props.step];
-  //   const winner = calculateWinner(current.squares);
-  //   const xIsNext = this.props.step % 2 === 0;
-
-  //   let status;
-  //   if (winner) {
-  //     status = `Winner: ${winner.name}`;
-  //   } else if (this.props.step === 9) {
-  //     status = "Game Tie!";
-  //   } else {
-  //     status = `Next player: ${xIsNext ? "X" : "O"}`;
-  //   }
-
-  //   this.props.addHeaderHistory(status, history);
-  // }
 };
 
 const mapStateToProps = (state) => {
@@ -86,6 +70,9 @@ const mapDispatchToProps = (dispatch) => {
     addHeaderHistory: (header, history) => {
       dispatch({ type: "SET_HEADER", payload: header });
       dispatch({ type: "SET_HISTORY", payload: history });
+    },
+    setStep: (step) => {
+      dispatch({ type: "SET_STEP", payload: step });
     },
   };
 };

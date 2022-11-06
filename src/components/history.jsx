@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Collapse from "@material-ui/core/Collapse";
 
-const History = (props) => {
+const History = ({ history, setStep }) => {
   const [reverseOrder, setReverseOrder] = useState(false);
 
   const order = reverseOrder ? "reverseOrder" : "";
-  const historyList = !!props.history[1];
+  const historyList = !!history[1];
 
-  const moves = props.history.map((step, move) => {
+  const moves = history.map((step, move) => {
     const desc = move ? `Go to move #${move}` : "Go to game start";
     const location = step.col ? `(${step.col},${step.row})` : "";
     if (!historyList) return "";
@@ -20,7 +20,7 @@ const History = (props) => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => jumpTo(move)}
+          onClick={() => setStep(move)}
         >
           {desc}
         </Button>
@@ -43,13 +43,16 @@ const History = (props) => {
       <ol className={order}>{moves}</ol>
     </>
   );
-
-  function jumpTo(step) {
-    props.dispatch({ type: "SET_STEP", payload: step });
-  }
 };
 
 const mapStateToProps = (state) => {
   return { history: state.history };
 };
-export default connect(mapStateToProps)(History);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setStep: (step) => {
+      dispatch({ type: "SET_STEP", payload: step });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(History);
