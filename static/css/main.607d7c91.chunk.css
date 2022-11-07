@@ -1,0 +1,2 @@
+.board-row:after{clear:both;content:"";display:table}.boldsquare,.square{background:#fff;border:1px solid #999;float:left;font-size:24px;line-height:34px;font-weight:700;height:34px;margin:-1px -1px 0 0;padding:0;text-align:center;width:34px}.boldsquare{background:#ff0}.square:focus{outline:none}.kbd-navigation .square:focus{background:#ddd}.reverseOrder{display:flex;flex-direction:column-reverse}
+/*# sourceMappingURL=main.607d7c91.chunk.css.map */
