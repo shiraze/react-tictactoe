@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This project has been deployed to the following Github page: https://shiraze.github.io/react-tictactoe/
+
 ## React tutorial
 After bootstapping, the tasks on https://reactjs.org/tutorial/tutorial.html were then followed.
 I've also implemented code for the following items from the **Wrapping up** section:
