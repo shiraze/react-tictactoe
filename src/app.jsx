@@ -1,17 +1,15 @@
-import React from "react";
-
 import Header from "./components/header";
 import History from "./components/history";
 import Game from "./components/game";
 
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "./style/theme";
 
 const App = () => (
-  <MuiThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
     <Grid container>
       <Header />
     </Grid>
@@ -26,7 +24,7 @@ const App = () => (
         </Grid>
       </Grid>
     </Paper>
-  </MuiThemeProvider>
+  </ThemeProvider>
 );
 
 export default App;

@@ -1,9 +1,8 @@
-import React from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
 
-import Button from "@material-ui/core/Button";
-import Collapse from "@material-ui/core/Collapse";
+import Button from "@mui/material/Button";
+import Collapse from "@mui/material/Collapse";
 
 const History = ({ history, setStep }) => {
   const [reverseOrder, setReverseOrder] = useState(false);

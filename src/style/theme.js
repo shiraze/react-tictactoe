@@ -1,8 +1,8 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material/styles";
 import "./index.css";
 import "typeface-roboto";
 
-export default createMuiTheme({
+export default createTheme({
   palette: {
     primary: { main: "#ff5722" },
     secondary: { main: "#2979ff" },
